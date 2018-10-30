@@ -58,7 +58,7 @@ pipeline {
                     if (env.CHANGE_ID) {
                         pullRequest.comment("""Some tests failed
 
-<details><summary>Run parallel RSpec tests / JS-tests / SellersPageWithData parsePropsToComponent.SellersPageWithData parsePropsToComponent</summary>
+<details><summary>`Run parallel RSpec tests / JS-tests / SellersPageWithData parsePropsToComponent.SellersPageWithData parsePropsToComponent`</summary>
 <br />
 
 ```
@@ -85,7 +85,7 @@ Received value does not match stored snapshot "SellersPageWithData parsePropsToC
 ```
 </details>
 
-<details><summary>Run parallel RSpec tests / split-1 / spec.graph.consumer_api.query_root_spec.GraphQL type ConsumerAPI::QueryRoot has tests for all fields</summary>
+<details><summary>`Run parallel RSpec tests / split-1 / spec.graph.consumer_api.query_root_spec.GraphQL type ConsumerAPI::QueryRoot has tests for all fields`</summary>
 
 ```
 Failure/Error:

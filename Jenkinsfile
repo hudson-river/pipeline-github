@@ -16,7 +16,7 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    echo env
+                    sh 'printenv'
                     if (env.CHANGE_ID) {
                         if (pullRequest.comments.size()) {
                             def comment = pullRequest.comments.last()

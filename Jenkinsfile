@@ -16,7 +16,6 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    sh 'printenv'
                     if (env.CHANGE_ID) {
                         if (pullRequest.comments.size()) {
                             def comment = pullRequest.comments.last()
@@ -25,7 +24,7 @@ pipeline {
                                 if (comment.body == "/hudson ping") {
                                     pullRequest.comment("PONG")
                                 } else if (comment.body == "/hudson prenv") {
-                                    pullRequest.comment("Starting a new pull request environment")
+                                    pullRequest.comment("Starting a new pull request environment for branch ${env.CHANGE_BRANCH}")
                                 } else if (comment.body == "/hudson help" || comment.body == "/hudson ?") {
                                     pullRequest.comment("""Available commands:
 

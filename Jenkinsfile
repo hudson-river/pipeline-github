@@ -13,6 +13,8 @@ pipeline {
     }
 
     stages {
+        def handled = false
+
         stage('Hudson') {
             steps {
                 script {
@@ -25,14 +27,17 @@ pipeline {
                                 // This is a command, mark the command as handled, and handle it
                                 if (comment == "/hudson ping") {
                                     pullRequest.comment("PONG")
+                                    handled = true
                                 } else if (comment == "/hudson prenv") {
                                     pullRequest.comment("Starting a new pull request environment for branch ${env.CHANGE_BRANCH}")
+                                    handled = true
                                 } else if (comment == "/hudson help" || comment == "/hudson ?") {
                                     pullRequest.comment("""Available commands:
 
 * `/hudson help` -- this help
 * `/hudson ping` -- pong
 * `/hudson prenv` -- start a new prenv""")
+                                    handled = true
                                 }
                             }
                         } else {
@@ -56,19 +61,21 @@ pipeline {
             }
         }
 
-        stage('Test') {
-            steps {
-                script {
-                    if (env.CHANGE_ID) {
-                        pullRequest.comment("""Some tests failed
+        if (handled == false) {
+            stage('Test') {
+                steps {
+                    script {
+                        if (env.CHANGE_ID) {
+                            pullRequest.comment("""Some tests failed
 
-<details><summary>parsePropsToComponent.SellersPageWithData parsePropsToComponent</summary>
-<br />
+                            <details><summary>parsePropsToComponent.SellersPageWithData parsePropsToComponent</summary>
+                            <br />
 
-```
-Error: expect(value).toMatchSnapshot()
-```
-</details>""")
+                            ```
+                            Error: expect(value).toMatchSnapshot()
+                            ```
+                            </details>""")
+                        }
                     }
                 }
             }

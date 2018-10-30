@@ -16,13 +16,14 @@ pipeline {
         stage('Test') {
             steps {
                 script {
+                    printf env
                     if (env.CHANGE_ID) {
                         if (pullRequest.comments.size()) {
                             def comment = pullRequest.comments.last()
                             if (comment.body =~ /^\/hudson .*/) {
                                 // This is a command, mark the command as handled, and handle it
                                 if (comment.body == "/hudson ping") {
-                                    pullRequest.comment("PONG ${env.BRANCH_NAME}")
+                                    pullRequest.comment("PONG")
                                 } else if (comment.body == "/hudson prenv") {
                                     pullRequest.comment("Starting a new pull request environment")
                                 } else if (comment.body == "/hudson help" || comment.body == "/hudson ?") {

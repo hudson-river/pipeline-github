@@ -22,7 +22,7 @@ pipeline {
                             if (comment.body =~ /^\/hudson .*/) {
                                 // This is a command, mark the command as handled, and handle it
                                 if (comment.body == "/hudson ping") {
-                                    pullRequest.comment("PONG")
+                                    pullRequest.comment("PONG ${env.BRANCH_NAME}")
                                 } else if (comment.body == "/hudson prenv") {
                                     pullRequest.comment("Starting a new pull request environment")
                                 } else if (comment.body == "/hudson help" || comment.body == "/hudson ?") {

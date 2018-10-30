@@ -21,13 +21,13 @@ pipeline {
 
                         if (triggerCause) {
                             def comment = triggerCause.comment
-                            if (comment.body =~ /^\/hudson .*/) {
+                            if (comment =~ /^\/hudson .*/) {
                                 // This is a command, mark the command as handled, and handle it
-                                if (comment.body == "/hudson ping") {
+                                if (comment == "/hudson ping") {
                                     pullRequest.comment("PONG")
-                                } else if (comment.body == "/hudson prenv") {
+                                } else if (comment == "/hudson prenv") {
                                     pullRequest.comment("Starting a new pull request environment for branch ${env.CHANGE_BRANCH}")
-                                } else if (comment.body == "/hudson help" || comment.body == "/hudson ?") {
+                                } else if (comment == "/hudson help" || comment == "/hudson ?") {
                                     pullRequest.comment("""Available commands:
 
 * `/hudson help` -- this help

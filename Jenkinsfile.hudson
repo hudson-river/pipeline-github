@@ -37,7 +37,6 @@ pipeline {
 * `/hudson prenv` -- start a new prenv""")
                                 }
                             }
-                            error('Done processing commands!')
                         } else {
                             if (pullRequest.comments.size() == 0) {
                                 pullRequest.comment("""<details>

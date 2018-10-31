@@ -2,6 +2,7 @@
 
 String helpMessage =
 """
+
 * `/hudson help` -- this help
 * `/hudson ping` -- pong
 * `/hudson prenv` -- start a new prenv"""

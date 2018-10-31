@@ -11,7 +11,7 @@ String formatDetails(String summary, String details) {
 }
 
 pipeline {
-    agent { any }
+    agent any
 
     triggers {
         issueCommentTrigger('^/hudson .*')

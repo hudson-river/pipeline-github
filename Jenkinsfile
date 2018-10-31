@@ -13,8 +13,6 @@ pipeline {
     }
 
     stages {
-        def handled = false
-
         stage('Hudson') {
             steps {
                 script {
@@ -37,9 +35,10 @@ pipeline {
 * `/hudson help` -- this help
 * `/hudson ping` -- pong
 * `/hudson prenv` -- start a new prenv""")
-                                    handled = true
                                 }
                             }
+                            currentBuild.rawBuild.result = Result.SUCCESS
+                            throw new hudson.AbortException('Done processing commands!')
                         } else {
                             if (pullRequest.comments.size() == 0) {
                                 pullRequest.comment("""<details>
@@ -61,21 +60,19 @@ pipeline {
             }
         }
 
-        if (handled == false) {
-            stage('Test') {
-                steps {
-                    script {
-                        if (env.CHANGE_ID) {
-                            pullRequest.comment("""Some tests failed
+        stage('Test') {
+            steps {
+                script {
+                    if (env.CHANGE_ID) {
+                        pullRequest.comment("""Some tests failed
 
-                            <details><summary>parsePropsToComponent.SellersPageWithData parsePropsToComponent</summary>
-                            <br />
+                        <details><summary>parsePropsToComponent.SellersPageWithData parsePropsToComponent</summary>
+                        <br />
 
-                            ```
-                            Error: expect(value).toMatchSnapshot()
-                            ```
-                            </details>""")
-                        }
+                        ```
+                        Error: expect(value).toMatchSnapshot()
+                        ```
+                        </details>""")
                     }
                 }
             }

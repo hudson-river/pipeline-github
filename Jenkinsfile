@@ -54,7 +54,6 @@ pipeline {
                     } else {
                         echo "NOT a PR"
                     }
-
                 }
             }
         }
@@ -77,10 +76,11 @@ pipeline {
             }
         }
 
-        post {
-            failure {
-                currentBuild.rawBuild.result = Result.SUCCESS
-            }
+    }
+
+    post {
+        failure {
+            currentBuild.rawBuild.result = Result.SUCCESS
         }
     }
 }

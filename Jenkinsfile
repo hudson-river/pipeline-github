@@ -80,7 +80,9 @@ pipeline {
 
     post {
         failure {
-            currentBuild.rawBuild.result = Result.SUCCESS
+            script {
+                currentBuild.rawBuild.result = Result.SUCCESS
+            }
         }
     }
 }

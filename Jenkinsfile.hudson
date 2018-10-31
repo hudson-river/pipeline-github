@@ -1,7 +1,17 @@
 #!/usr/bin/env groovy
 
+String helpMessage =
+"""
+* `/hudson help` -- this help
+* `/hudson ping` -- pong
+* `/hudson prenv` -- start a new prenv"""
+
+String formatDetails(String summary, String details) {
+    sprintf("<details>\n<summary>%s</summary>\n<br />%s</details>", summary, details)
+}
+
 pipeline {
-    agent { label 'linux' }
+    agent { any }
 
     triggers {
         issueCommentTrigger('^/hudson .*')
@@ -30,24 +40,14 @@ pipeline {
                                     pullRequest.comment("Starting a new pull request environment for branch ${env.CHANGE_BRANCH}")
                                     handled = true
                                 } else if (comment == "/hudson help" || comment == "/hudson ?") {
-                                    pullRequest.comment("""Available commands:
-
-* `/hudson help` -- this help
-* `/hudson ping` -- pong
-* `/hudson prenv` -- start a new prenv""")
+                                    pullRequest.comment(helpMessage)
                                 }
                             }
                         } else {
-                            if (pullRequest.comments.size() == 0) {
-                                pullRequest.comment("""<details>
-<summary>Hudson commands and options</summary>
-<br />
-
-* `/hudson help` -- this help
-* `/hudson ping` -- pong
-* `/hudson prenv` -- start a new prenv
-</details>
-""")
+                            // Check if a help-comment has been displayed
+                            String helpComment = formatDetails("Hudson commands", helpMessage)
+                            if (!pullRequest.comments.any { it.body == helpComment }) {
+                                pullRequest.comment(formatDetails("Hudson commands", helpMessage))
                             }
                         }
                     } else {

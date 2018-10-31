@@ -37,7 +37,7 @@ pipeline {
 * `/hudson prenv` -- start a new prenv""")
                                 }
                             }
-                            throw new Exception('Done processing commands!')
+                            error('Done processing commands!')
                         } else {
                             if (pullRequest.comments.size() == 0) {
                                 pullRequest.comment("""<details>
@@ -64,13 +64,13 @@ pipeline {
                     if (env.CHANGE_ID) {
                         pullRequest.comment("""Some tests failed
 
-                        <details><summary>parsePropsToComponent.SellersPageWithData parsePropsToComponent</summary>
-                        <br />
+<details><summary>parsePropsToComponent.SellersPageWithData parsePropsToComponent</summary>
+<br />
 
-                        ```
-                        Error: expect(value).toMatchSnapshot()
-                        ```
-                        </details>""")
+```
+Error: expect(value).toMatchSnapshot()
+```
+</details>""")
                     }
                 }
             }
@@ -81,6 +81,7 @@ pipeline {
     post {
         failure {
             script {
+                echo "Setting result"
                 currentBuild.rawBuild.result = Result.SUCCESS
             }
         }

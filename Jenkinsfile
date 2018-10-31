@@ -37,8 +37,7 @@ pipeline {
 * `/hudson prenv` -- start a new prenv""")
                                 }
                             }
-                            currentBuild.rawBuild.result = Result.SUCCESS
-                            throw new hudson.AbortException('Done processing commands!')
+                            throw new Exception('Done processing commands!')
                         } else {
                             if (pullRequest.comments.size() == 0) {
                                 pullRequest.comment("""<details>
@@ -75,6 +74,12 @@ pipeline {
                         </details>""")
                     }
                 }
+            }
+        }
+
+        post {
+            failure {
+                currentBuild.rawBuild.result = Result.SUCCESS
             }
         }
     }

@@ -6,6 +6,7 @@ pipeline {
     options {
         timestamps()
         buildDiscarder(logRotator(numToKeepStr: env.BRANCH_NAME == 'master' ? '11' : '2'))
+        skipDefaultCheckout()
     }
 
     stages {
@@ -14,8 +15,8 @@ pipeline {
                 checkout([
                     $class: 'GitSCM',
                     branches: scm.branches,
-                    doGenerateSubmoduleConfigurations: false,
-                    extensions: [[$class: 'CloneOption', depth: 0, noTags: false, reference: '', shallow: true]], submoduleCfg: [], userRemoteConfigs: [[]]
+                    extensions: scm.extensions + [[$class: 'CloneOption', depth: 0, noTags: false, reference: '', shallow: true]],
+                    userRemoteConfigs: scm.userRemoteConfigs
                     ])
 
                 script {

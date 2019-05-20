@@ -5,7 +5,7 @@ pipeline {
 
     options {
         timestamps()
-        buildDiscarder(logRotator(numToKeepStr: env.BRANCH_NAME == 'master' ? '10' : '2'))
+        buildDiscarder(logRotator(numToKeepStr: env.BRANCH_NAME == 'master' ? '11' : '2'))
     }
 
     stages {
